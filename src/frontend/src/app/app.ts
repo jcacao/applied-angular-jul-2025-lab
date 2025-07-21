@@ -7,7 +7,7 @@ import { RouterOutlet } from '@angular/router';
   template: `
     <app-nav-bar />
 
-    <main class="container mx-auto">
+    <main class="container mx-auto pt-4">
       <router-outlet />
     </main>
   `,
