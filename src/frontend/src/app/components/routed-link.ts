@@ -1,11 +1,19 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-routed-link',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
-  template: ` <a [routerLink]="href()">{{ label() }}</a> `,
+  imports: [RouterLink, RouterLinkActive],
+  template: `
+    <a
+      [routerLink]="href()"
+      routerLinkActive="underline"
+      #rla="routerLinkActive"
+      [class.opacity-60]="rla.isActive === false"
+      >{{ label() }}</a
+    >
+  `,
   styles: ``,
 })
 export class RoutedLink {

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { RoutedLink } from './routed-link';
 
 @Component({
   selector: 'app-nav-bar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive, RoutedLink],
+  imports: [RouterLink, RoutedLink],
   template: `
     <div class="navbar bg-base-100 shadow-sm">
       <div class="navbar-start">
