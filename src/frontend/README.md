@@ -1,35 +1,21 @@
 # Angular Starter
 
-## `.vscode` Folder
+## Getting My Code
 
-- `extensions.json` - has additional extensions I recommend for doing Angular development.
+Steps:
 
-  - Angular Language Service (`angular.ng-template`). **Required**
-  - Prettier - (`esbenp.prettier-vscode`) - code formatting.
-  - ESLint - (`dbaeumer.vscode-eslint`) - Linting for JS/TS
-  - Tailwind (`bradlc.vscode-tailwindcss`) - Tailwind Intellisense.
-  - TS Error Translator (`mattpocock.ts-error-transation`) - gives hints about TypeScript and better error messages.
-
-- `settings.json` - Various settings I prefer for working in Angular.
-
-- `tasks.json` - I have a run option so that when you open this directory, it automatically starts `ng serve -o`.
-
-- `typescript.code-snippets`
-  - Has two code snippets for creating Angular components.
-  - `ngc` - Create an Angular Component
-  - `ngrc` - Create an Angular Component, using the content of your clipboard for the template for the component.
-
-## Additional NPM Packages
-
-- Tailwind - forms, typography, autoprefixer, daisyui, postcss, tailwindcss
-- Mock Service Workers (msw) - for creating test doubles for API access.
-
-## Using This
-
-Create a directory, and in that directory:
+1. "Say 'Jeff, Can You Push Your Code?'"
+2. Dance Party
+3. Open a shell in the _root of your project_ and run:
 
 ```sh
-npx degit hypertheorytraining/angular-starter
-npm i
-code .
+npx gitpick -o JeffryGonzalez/applied-angular-jul-2025/tree/main/src/frontend instructor
 ```
+
+This will overwrite whatever was in the `instructor` directory with whatever I just pushed to Github.
+
+Copy and paste stuff from there if you need it.
+
+Don't edit this code unless you want to feel disappointment.
+
+Also, if I `npm install` anything and you didn't, grab my `package.json` and `package-lock.json` too, and run `npm ci` in that directory.
