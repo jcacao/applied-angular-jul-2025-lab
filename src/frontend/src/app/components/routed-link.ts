@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  input,
+  output,
+} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -8,6 +14,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   template: `
     <a
       [routerLink]="href()"
+      (click)="linkClicked.emit(label())"
       routerLinkActive="underline"
       #rla="routerLinkActive"
       [class.opacity-60]="rla.isActive === false"
@@ -19,4 +26,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class RoutedLink {
   href = input.required<string[]>();
   label = input.required<string>();
+
+  linkClicked = output<string>();
 }
