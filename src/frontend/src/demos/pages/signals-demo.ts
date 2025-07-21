@@ -46,20 +46,15 @@ export class SignalsDemo {
     this.score.update((s) => s + 1);
   }
   constructor() {
+    const intervalId = setInterval(() => this.tick.update((t) => t + 1), 1000);
     effect((onCleanup) => {
-      const currentScore = this.score();
-
-      const intervalId = setInterval(
-        () => this.tick.update((t) => t + 1),
-        1000,
-      );
-      if (currentScore > 8) {
-        console.log(
-          `Get this person off the course, they are bad and probably drunk`,
-        );
-      }
-
-      onCleanup(() => clearInterval(intervalId));
+      onCleanup(() => {
+        console.log('blah' + intervalId);
+        clearInterval(intervalId);
+      });
+    });
+    effect(() => {
+      console.log(this.score());
     });
   }
 }
