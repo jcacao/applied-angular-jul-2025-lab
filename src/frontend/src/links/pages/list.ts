@@ -27,15 +27,14 @@ import { ApiLink } from '../types';
           value="×"
         />
         @for (tag of tags(); track tag) {
-          @if (tag === filterTag() || !filterTag()) {
-            <input
-              (click)="filterTag.set(tag)"
-              class="btn"
-              type="radio"
-              name="filter"
-              [attr.aria-label]="tag"
-            />
-          }
+          <input
+            (click)="filterTag.set(tag)"
+            class="btn"
+            type="radio"
+            name="filter"
+            [checked]="filterTag() === tag"
+            [attr.aria-label]="tag"
+          />
         }
       </form>
       @if (linksResource.hasValue()) {
@@ -89,8 +88,9 @@ export class List {
 
   tags = computed(() => {
     const links = this.linksResource.value() || [];
-    const allTags = new Set<string>();
-    links.forEach((link) => link.tags.forEach((tag) => allTags.add(tag)));
-    return Array.from(allTags);
+    const allTags = links.reduce((prev: string[], curr) => {
+      return [...prev, ...curr.tags];
+    }, []);
+    return new Set(allTags);
   });
 }
