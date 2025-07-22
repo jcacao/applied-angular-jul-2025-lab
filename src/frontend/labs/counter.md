@@ -8,7 +8,7 @@ You may end up needing a service.
 
 ### Feature Component
 
-Create a new folder in `src/app/` called `counter-lab`.
+Create a new folder in `src/` called `counter-lab`.
 
 
 Create an Angular component in that folder called `counter.component.ts`.
@@ -39,7 +39,7 @@ It will look like this:
 ```
   {
     path: 'counter-lab',
-    loadChildren: () =>import('../counter-labr/counter.routes').then(r => r.COUNTER_ROUTES)
+    loadChildren: () =>import('../counter-lab/counter.routes').then(r => r.COUNTER_ROUTES)
   },
 ```
 
