@@ -1,15 +1,17 @@
+import { JsonPipe } from '@angular/common';
 import {
   Component,
   ChangeDetectionStrategy,
   signal,
   computed,
   effect,
+  resource,
 } from '@angular/core';
 
 @Component({
   selector: 'app-demos-signals',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
+  imports: [JsonPipe],
   template: `
     <div>
       <p>Your Score: {{ score() }}</p>
@@ -34,10 +36,26 @@ import {
         <p>tick {{ tick() }}</p>
       </div>
     </div>
+
+    @if (todos.isLoading()) {
+      <p>We are loading</p>
+    } @else {
+      <p>You have {{ numberOfCompletedTodos() }}</p>
+      <pre>{{ todos.value() | json }}</pre>
+    }
   `,
   styles: ``,
 })
 export class SignalsDemo {
+  todos = resource<{ completed: boolean }[], unknown>({
+    loader: () =>
+      fetch('https://jsonplaceholder.typicode.com/todos').then((r) => r.json()),
+  });
+
+  numberOfCompletedTodos = computed(() => {
+    const todos = this.todos.value() || [];
+    return todos.filter((t) => t.completed === true).length;
+  });
   score = signal(0);
   par = signal(4);
   tick = signal(0);
