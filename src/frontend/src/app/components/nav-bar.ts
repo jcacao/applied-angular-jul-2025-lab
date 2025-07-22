@@ -57,5 +57,6 @@ export class NavBar {
   links = signal([
     { href: ['about'], label: 'About' },
     { href: ['demos'], label: 'Demos' },
+    { href: ['links'], label: 'Share Links' },
   ]);
 }
