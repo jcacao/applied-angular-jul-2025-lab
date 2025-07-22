@@ -4,10 +4,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   resource,
   signal,
 } from '@angular/core';
 import { ApiLink } from '../types';
+import { LinksStore } from '../services/links-store';
 
 @Component({
   selector: 'app-links-list',
@@ -65,11 +67,15 @@ import { ApiLink } from '../types';
         </ul>
       }
     }
+
+    <p>You are sorting by: {{ store.sortOrder() }}</p>
   `,
   styles: ``,
 })
 export class List {
   filterTag = signal<string | null>(null);
+
+  store = inject(LinksStore);
 
   linksResource = resource<ApiLink[], unknown>({
     loader: () =>
