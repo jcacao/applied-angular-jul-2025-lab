@@ -9,32 +9,35 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
   template: `
-    <p>List Goes Here</p>
+    <div class="h-4">
+      @if (store.isFetching()) {
+        <progress class="progress w-full"></progress>
+      }
+    </div>
 
     @if (store.isLoading()) {
       <div class="loading-ball loading"></div>
     } @else {
-      <form class="filter">
-        <input
-          (click)="store.clearFilterTag()"
-          class="btn btn-square"
-          type="reset"
-          value="×"
-        />
-        @for (tag of store.tags(); track tag) {
+      <div class="p-4">
+        <form class="filter">
           <input
-            (click)="store.setFilterTag(tag)"
-            class="btn"
-            type="radio"
-            name="filter"
-            [checked]="store.filterTag() === tag"
-            [attr.aria-label]="tag"
+            (click)="store.clearFilterTag()"
+            class="btn btn-square"
+            type="reset"
+            value="×"
           />
-        }
-      </form>
-      @if (store.isFetching()) {
-        <progress class="progress w-full"></progress>
-      }
+          @for (tag of store.tags(); track tag) {
+            <input
+              (click)="store.setFilterTag(tag)"
+              class="btn"
+              type="radio"
+              name="filter"
+              [checked]="store.filterTag() === tag"
+              [attr.aria-label]="tag"
+            />
+          }
+        </form>
+      </div>
       <ul class="list rounded-box bg-base-300">
         @for (link of store.filteredLinks(); track link.id) {
           <li class="list-row mb-2">

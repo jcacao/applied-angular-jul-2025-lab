@@ -15,7 +15,7 @@ import { LinkApiService } from './links-api';
 
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { Store } from '@ngrx/store';
-import { exhaustMap, pipe, tap } from 'rxjs';
+import { exhaustMap, interval, pipe, tap } from 'rxjs';
 import { selectSub } from '../../shared/identity/store';
 import {
   setFetching,
@@ -28,6 +28,7 @@ import {
   setFilterTag,
   withLinkFiltering,
 } from './link-filter-feature';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 type SortOptions = 'newest' | 'oldest';
 type LinkState = {
   sortOrder: SortOptions;
@@ -89,7 +90,8 @@ export const LinksStore = signalStore(
         }
         const filtered = store
           .entities()
-          .filter((link) => (tag === null ? true : link.tags.includes(tag)))
+          // Going to leave this as a bug until tomorrow - before refactor.
+          .filter((link) => (tag !== null ? link.tags.includes(tag) : true))
           .map((l) => mapApiLinkToModelWithIdentity(l, sub));
         return filtered;
       }),
@@ -99,10 +101,10 @@ export const LinksStore = signalStore(
     onInit(store) {
       store._load({ isBackgroundFetch: false });
       console.log('The Links Store Is Created!');
-      // potential bug here, but I know it, and knowing is half the battle.
-      setInterval(() => {
-        store._load({ isBackgroundFetch: true });
-      }, 5000);
+      // This is better than what I had with the setInteral - the takeUntilDestroyed will clean this up for us.
+      interval(5000)
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => store._load({ isBackgroundFetch: true }));
     },
     onDestroy() {
       console.log('The Links Store is DESTROYED');
