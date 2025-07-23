@@ -9,7 +9,7 @@ export const LINKS_ROUTES: Routes = [
     component: Links,
     children: [
       {
-        path: '',
+        path: 'list',
         component: List,
       },
       {

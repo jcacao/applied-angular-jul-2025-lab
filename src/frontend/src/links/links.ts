@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { LinksStore } from './services/links-store';
 import { LinkApiService } from './services/links-api';
@@ -10,7 +10,7 @@ import { LinkApiService } from './services/links-api';
   providers: [LinksStore, LinkApiService],
   template: `
     <div class="flex flex-row gap-4">
-      <a class="link" routerLink="/links">List</a>
+      <a class="link" routerLink="list">List</a>
       <a class="link" routerLink="prefs">prefs</a>
     </div>
 
