@@ -16,6 +16,7 @@ import { LinkApiService } from './links-api';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { exhaustMap, pipe, tap } from 'rxjs';
 import {
+  setFetching,
   setIsFulfilled,
   setIsLoading,
   withApiState,
@@ -43,9 +44,14 @@ export const LinksStore = signalStore(
     return {
       setFilterTag: (tag: string) => patchState(state, setFilterTag(tag)),
       clearFilterTag: () => patchState(state, clearFilteringTag()),
-      _load: rxMethod<void>(
+      _load: rxMethod<{ isBackgroundFetch: boolean }>(
         pipe(
-          tap(() => patchState(state, setIsLoading())),
+          tap((p) =>
+            patchState(
+              state,
+              p.isBackgroundFetch ? setFetching() : setIsLoading(),
+            ),
+          ),
           exhaustMap(() =>
             service
               .getLinks()
@@ -81,8 +87,12 @@ export const LinksStore = signalStore(
   }),
   withHooks({
     onInit(store) {
-      store._load();
+      store._load({ isBackgroundFetch: false });
       console.log('The Links Store Is Created!');
+      // potential bug here, but I know it, and knowing is half the battle.
+      setInterval(() => {
+        store._load({ isBackgroundFetch: true });
+      }, 5000);
     },
     onDestroy() {
       console.log('The Links Store is DESTROYED');

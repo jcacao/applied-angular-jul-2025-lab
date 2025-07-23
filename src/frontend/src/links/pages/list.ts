@@ -1,14 +1,6 @@
 // ngc
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  resource,
-  signal,
-} from '@angular/core';
-import { ApiLink } from '../types';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { LinksStore } from '../services/links-store';
 
 @Component({
@@ -39,7 +31,9 @@ import { LinksStore } from '../services/links-store';
           />
         }
       </form>
-
+      @if (store.isFetching()) {
+        <progress class="progress w-full"></progress>
+      }
       <ul class="list rounded-box bg-base-300">
         @for (link of store.filteredLinks(); track link.id) {
           <li class="list-row mb-2">
