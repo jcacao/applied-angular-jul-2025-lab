@@ -1,6 +1,14 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RoutedLink } from './routed-link';
+import { Store } from '@ngrx/store';
+import { IdentityActions } from '../../shared/identity/actions';
+import { selectIsLoggedIn, selectSub } from '../../shared/identity/store';
 
 @Component({
   selector: 'app-nav-bar',
@@ -47,13 +55,28 @@ import { RoutedLink } from './routed-link';
         </ul>
       </div>
       <div class="navbar-end">
-        <a class="btn">Button</a>
+        @if (isLoggedIn()) {
+          <button (click)="logOut()" class="btn">Log Out {{ sub() }}</button>
+        } @else {
+          <button (click)="logIn()" class="btn">Login</button>
+        }
       </div>
     </div>
   `,
   styles: ``,
 })
 export class NavBar {
+  logOut() {
+    this.reduxStore.dispatch(IdentityActions.loginRequested());
+  }
+  reduxStore = inject(Store);
+
+  sub = this.reduxStore.selectSignal(selectSub);
+  isLoggedIn = this.reduxStore.selectSignal(selectIsLoggedIn);
+
+  logIn() {
+    this.reduxStore.dispatch(IdentityActions.loginRequested());
+  }
   links = signal([
     { href: ['about'], label: 'About' },
     { href: ['demos'], label: 'Demos' },
