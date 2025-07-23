@@ -9,6 +9,8 @@ import {
 import { withEntities } from '@ngrx/signals/entities';
 import { ApiLink } from '../types';
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
+import { inject } from '@angular/core';
+import { LinkApiService } from './links-api';
 type SortOptions = 'newest' | 'oldest';
 type LinkState = {
   sortOrder: SortOptions;
@@ -21,7 +23,7 @@ export const LinksStore = signalStore(
     sortOrder: 'newest',
   }),
   withMethods((state) => {
-    // stuff coming here later.
+    const service = inject(LinkApiService);
     return {
       changeSortOrder: (sortOrder: SortOptions) =>
         patchState(state, { sortOrder }),
