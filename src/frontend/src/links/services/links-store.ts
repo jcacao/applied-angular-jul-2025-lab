@@ -14,7 +14,9 @@ import { ApiLink } from '../types';
 import { LinkApiService } from './links-api';
 
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import { Store } from '@ngrx/store';
 import { exhaustMap, pipe, tap } from 'rxjs';
+import { selectSub } from '../../shared/identity/store';
 import {
   setFetching,
   setIsFulfilled,
@@ -30,6 +32,8 @@ type SortOptions = 'newest' | 'oldest';
 type LinkState = {
   sortOrder: SortOptions;
 };
+
+type LinkModel = ApiLink & { isOwnedByCurrentUser: boolean };
 
 export const LinksStore = signalStore(
   withApiState(),
@@ -66,6 +70,9 @@ export const LinksStore = signalStore(
     };
   }),
   withComputed((store) => {
+    // Injection Context
+    const reduxStore = inject(Store);
+    const userSub = reduxStore.selectSignal(selectSub);
     return {
       tags: computed(() => {
         const links = store.entities();
@@ -76,11 +83,19 @@ export const LinksStore = signalStore(
       }),
       filteredLinks: computed(() => {
         const tag = store.filterTag();
-
-        if (tag === null) return store.entities();
+        const sub = userSub();
+        if (tag === null) {
+          return store
+            .entities()
+            .map((l) => ({ ...l, isOwnedByCurrentUser: sub === l.owner }));
+        }
         const filtered = store
           .entities()
-          .filter((link) => link.tags.includes(tag));
+          .filter((link) => link.tags.includes(tag || ''))
+          .map((l) => ({
+            ...l,
+            isOwnedByCurrentUser: sub === l.owner,
+          }));
         return filtered;
       }),
     };

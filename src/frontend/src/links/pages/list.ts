@@ -45,11 +45,13 @@ import { RouterLink } from '@angular/router';
               }}</a>
             </div>
             <div>
-              <a
-                [routerLink]="['..', link.id, 'edit']"
-                class="btn btn-sm btn-accent"
-                >Edit Your Link</a
-              >
+              @if (link.isOwnedByCurrentUser) {
+                <a
+                  [routerLink]="['..', link.id, 'edit']"
+                  class="btn btn-sm btn-accent"
+                  >Edit Your Link</a
+                >
+              }
             </div>
             <div>
               @for (tag of link.tags; track tag) {
