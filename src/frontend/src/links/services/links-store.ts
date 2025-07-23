@@ -6,12 +6,17 @@ import {
   withState,
 } from '@ngrx/signals';
 
+import { withEntities } from '@ngrx/signals/entities';
+import { ApiLink } from '../types';
+import { withDevtools } from '@angular-architects/ngrx-toolkit';
 type SortOptions = 'newest' | 'oldest';
 type LinkState = {
   sortOrder: SortOptions;
 };
 
 export const LinksStore = signalStore(
+  withDevtools('links-store'),
+  withEntities<ApiLink>(),
   withState<LinkState>({
     sortOrder: 'newest',
   }),

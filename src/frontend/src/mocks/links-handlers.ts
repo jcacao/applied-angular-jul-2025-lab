@@ -35,7 +35,7 @@ const FAKE_LINKS = [
 ];
 export const links_handers = [
   http.get('https://links-api.fictionalcompany.com/api/links', async () => {
-    await delay();
+    await delay(3000);
 
     // return HttpResponse.json([]);
     return HttpResponse.json(FAKE_LINKS);
