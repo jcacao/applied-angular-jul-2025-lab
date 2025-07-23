@@ -84,18 +84,13 @@ export const LinksStore = signalStore(
       filteredLinks: computed(() => {
         const tag = store.filterTag();
         const sub = userSub();
-        if (tag === null) {
-          return store
-            .entities()
-            .map((l) => ({ ...l, isOwnedByCurrentUser: sub === l.owner }));
+        if (sub === null) {
+          return store.entities().map(mapApiLinkToModelNoIdentity);
         }
         const filtered = store
           .entities()
-          .filter((link) => link.tags.includes(tag || ''))
-          .map((l) => ({
-            ...l,
-            isOwnedByCurrentUser: sub === l.owner,
-          }));
+          .filter((link) => (tag === null ? true : link.tags.includes(tag)))
+          .map((l) => mapApiLinkToModelWithIdentity(l, sub));
         return filtered;
       }),
     };
@@ -114,3 +109,16 @@ export const LinksStore = signalStore(
     },
   }),
 );
+
+function mapApiLinkToModelNoIdentity(
+  link: ApiLink,
+): ApiLink & { isOwnedByCurrentUser: boolean } {
+  return { ...link, isOwnedByCurrentUser: false };
+}
+
+function mapApiLinkToModelWithIdentity(
+  link: ApiLink,
+  sub: string,
+): ApiLink & { isOwnedByCurrentUser: boolean } {
+  return { ...link, isOwnedByCurrentUser: link.owner === sub };
+}
