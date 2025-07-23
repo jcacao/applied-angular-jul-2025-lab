@@ -67,7 +67,7 @@ import { selectIsLoggedIn, selectSub } from '../../shared/identity/store';
 })
 export class NavBar {
   logOut() {
-    this.reduxStore.dispatch(IdentityActions.loginRequested());
+    this.reduxStore.dispatch(IdentityActions.logouotRequested());
   }
   reduxStore = inject(Store);
 
