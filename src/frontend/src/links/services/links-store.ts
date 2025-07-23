@@ -112,15 +112,10 @@ export const LinksStore = signalStore(
   }),
 );
 
-function mapApiLinkToModelNoIdentity(
-  link: ApiLink,
-): ApiLink & { isOwnedByCurrentUser: boolean } {
+function mapApiLinkToModelNoIdentity(link: ApiLink): LinkModel {
   return { ...link, isOwnedByCurrentUser: false };
 }
 
-function mapApiLinkToModelWithIdentity(
-  link: ApiLink,
-  sub: string,
-): ApiLink & { isOwnedByCurrentUser: boolean } {
+function mapApiLinkToModelWithIdentity(link: ApiLink, sub: string): LinkModel {
   return { ...link, isOwnedByCurrentUser: link.owner === sub };
 }
