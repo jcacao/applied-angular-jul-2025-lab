@@ -7,38 +7,42 @@ import {
   withState,
 } from '@ngrx/signals';
 
-import { setEntities, withEntities } from '@ngrx/signals/entities';
-import { ApiLink } from '../types';
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
 import { computed, inject } from '@angular/core';
+import { setEntities, withEntities } from '@ngrx/signals/entities';
+import { ApiLink } from '../types';
 import { LinkApiService } from './links-api';
 
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { exhaustMap, filter, pipe, tap } from 'rxjs';
+import { exhaustMap, pipe, tap } from 'rxjs';
 import {
   setIsFulfilled,
   setIsLoading,
   withApiState,
 } from './api-state-feature';
+import {
+  clearFilteringTag,
+  setFilterTag,
+  withLinkFiltering,
+} from './link-filter-feature';
 type SortOptions = 'newest' | 'oldest';
 type LinkState = {
   sortOrder: SortOptions;
-  filterTag: string | null;
 };
 
 export const LinksStore = signalStore(
   withApiState(),
+  withLinkFiltering(),
   withDevtools('links-store'),
   withEntities<ApiLink>(),
   withState<LinkState>({
     sortOrder: 'newest',
-    filterTag: null,
   }),
   withMethods((state) => {
     const service = inject(LinkApiService);
     return {
-      setFilterTag: (tag: string) => patchState(state, { filterTag: tag }),
-      clearFilterTag: () => patchState(state, { filterTag: null }),
+      setFilterTag: (tag: string) => patchState(state, setFilterTag(tag)),
+      clearFilterTag: () => patchState(state, clearFilteringTag()),
       _load: rxMethod<void>(
         pipe(
           tap(() => patchState(state, setIsLoading())),
