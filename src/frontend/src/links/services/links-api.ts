@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { ApiLink } from '../types';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ApiLink } from '../types';
 
 export class LinkApiService {
   #baseUrl = 'https://links-api.fictionalcompany.com/api/links';

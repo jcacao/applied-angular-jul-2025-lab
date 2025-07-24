@@ -10,6 +10,7 @@ import { CounterStore } from '../services/counter-store';
   selector: 'app-counter-prefs',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
+  providers: [],
   template: ` <div class="join">
     @for (by of store.countByValues; track by) {
       <button

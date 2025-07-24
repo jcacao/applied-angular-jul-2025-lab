@@ -62,18 +62,22 @@ export const CounterStore = signalStore(
 
   withHooks({
     onInit(store) {
-      const savedStateJson = localStorage.getItem('counter-state');
-      if (savedStateJson != null) {
-        // yucky - we'll talk about this.
-        const savedState = JSON.parse(
-          savedStateJson,
-        ) as unknown as CounterState;
-        patchState(store, savedState);
-      }
+      // const savedStateJson = localStorage.getItem('counter-state');
+      // if (savedStateJson != null) {
+      //   // yucky - we'll talk about this.
+      //   const savedState = JSON.parse(
+      //     savedStateJson,
+      //   ) as unknown as CounterState;
+      //   patchState(store, savedState);
+      // }
 
-      watchState(store, (state) => {
-        localStorage.setItem('counter-state', JSON.stringify(state));
-      });
+      // watchState(store, (state) => {
+      //   localStorage.setItem('counter-state', JSON.stringify(state));
+      // });
+      console.log('CounterStore initialized');
+    },
+    onDestroy(store) {
+      console.log('CounterStore destroyed');
     },
   }),
 );

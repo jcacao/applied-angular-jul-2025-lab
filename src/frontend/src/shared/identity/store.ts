@@ -7,7 +7,7 @@ export type IdentityState = {
 };
 
 const initialState: IdentityState = {
-  sub: null,
+  sub: 'b398939',
   roles: [],
 };
 
