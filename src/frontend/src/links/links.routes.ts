@@ -30,6 +30,7 @@ export const LINKS_ROUTES: Routes = [
         component: Edit,
         canActivate: [isLoggedInGuard, isOwnerOfLinkGuard()],
       },
+      { path: 'add', component: Edit, canActivate: [isLoggedInGuard] },
     ],
   },
 ];
