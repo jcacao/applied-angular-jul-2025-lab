@@ -15,6 +15,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { identityFeature } from '../shared/identity/store';
 import { IdentityEffects } from '../shared/identity/identity-effects';
+import { navBarFeature } from '../shared/nav-bar/store';
 
 // Services that are truly "global" in our application should be registered here.
 export const appConfig: ApplicationConfig = {
@@ -31,5 +32,6 @@ export const appConfig: ApplicationConfig = {
     provideStoreDevtools(),
     provideEffects([IdentityEffects]),
     provideState(identityFeature),
+    provideState(navBarFeature),
   ],
 };
