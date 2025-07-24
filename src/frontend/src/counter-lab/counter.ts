@@ -1,33 +1,19 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
-import { FeatureNav } from '../shared/components/feature-nav';
-import { CounterStore } from './services/counter-store';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-counter',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FeatureNav],
-  providers: [],
+  imports: [RouterLink, RouterOutlet],
   template: `
-    <app-feature-nav
-      [links]="links()"
-      sectionName="Counter Lab"
-      omitRouterOutlet
-    >
-      <p>Your Counter is {{ store.current() }}</p>
-    </app-feature-nav>
+    <div class="flex gap-12">
+      <a routerLink="ui" class="btn btn-primary btn-sm">UI</a>
+      <a routerLink="prefs" class="btn btn-primary btn-sm">Prefs</a>
+    </div>
+    <div class="p-12">
+      <router-outlet></router-outlet>
+    </div>
   `,
   styles: ``,
 })
-export class Counter {
-  store = inject(CounterStore);
-
-  links = signal([
-    { label: 'UI', href: ['ui'] },
-    { label: 'Prefs', href: ['prefs'] },
-  ]);
-}
+export class Counter {}

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { NavBar } from './components/nav-bar';
 import { RouterOutlet } from '@angular/router';
-import { CounterStore } from '../counter-lab/services/counter-store';
+//import { CounterStore } from '../counter-lab/services/counter-store';
 import { ErrorsStore } from '../shared/errors/store';
 
 @Component({
@@ -26,6 +26,6 @@ import { ErrorsStore } from '../shared/errors/store';
   imports: [NavBar, RouterOutlet],
 })
 export class App {
-  store = inject(CounterStore);
+  //store = inject(CounterStore);
   errorStore = inject(ErrorsStore);
 }

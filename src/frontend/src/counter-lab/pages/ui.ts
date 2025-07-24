@@ -3,43 +3,47 @@ import {
   ChangeDetectionStrategy,
   signal,
   computed,
-  inject,
 } from '@angular/core';
-import { CounterStore } from '../services/counter-store';
 
 @Component({
-  selector: 'app-counter-ui',
+  selector: 'app-ui',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
-  providers: [],
   template: `
     <div>
       <button
-        [disabled]="store.decrementShouldBeDisabled()"
-        (click)="store.decrement()"
+        [disabled]="decrementDisabled()"
+        (click)="decrement()"
         class="btn btn-primary"
       >
         -
       </button>
-      <span>{{ store.current() }}</span>
-      <button (click)="store.increment()" class="btn btn-primary">+</button>
+      <span data-testid="current">{{ current() }}</span>
+      <button (click)="increment()" class="btn btn-primary">+</button>
     </div>
     <div>
-      @switch (store.fizzBuzz()) {
-        @case ('Fizz') {
-          <div class="alert alert-info">You Have Fizz!</div>
-        }
-        @case ('Buzz') {
-          <div class="alert alert-info">You Have Buzz!</div>
-        }
-        @case ('FizzBuzz') {
-          <div class="alert alert-success">You Have Fizz BUZZ!</div>
-        }
-      }
+      <p>{{ fizzBuzz() }}</p>
     </div>
   `,
   styles: ``,
 })
 export class Ui {
-  store = inject(CounterStore);
+  current = signal(0);
+
+  increment() {
+    this.current.update((c) => c + 1);
+  }
+  decrement() {
+    this.current.update((c) => c - 1);
+  }
+  decrementDisabled = computed(() => this.current() === 0);
+
+  fizzBuzz = computed(() => {
+    const c = this.current();
+    if (c === 0) return '';
+    if (c % 3 === 0 && c % 5 === 0) return 'FizzBuzz';
+    if (c % 3 === 0) return 'Fizz';
+    if (c % 5 === 0) return 'Buzz';
+    return '';
+  });
 }

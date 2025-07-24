@@ -1,29 +1,29 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  signal,
-  inject,
-} from '@angular/core';
-import { CounterStore } from '../services/counter-store';
+import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 
 @Component({
-  selector: 'app-counter-prefs',
+  selector: 'app-prefs',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
-  providers: [],
-  template: ` <div class="join">
-    @for (by of store.countByValues; track by) {
-      <button
-        [disabled]="store.by() === by"
-        (click)="store.setBy(by)"
-        class="btn join-item"
-      >
-        {{ by }}
+  template: `
+    <p>Counter Preferences</p>
+    <div class="join">
+      <button (click)="setBy(1)" [disabled]="by() === 1" class="btn join-item">
+        1
       </button>
-    }
-  </div>`,
+      <button (click)="setBy(3)" [disabled]="by() === 3" class="btn join-item">
+        3
+      </button>
+      <button (click)="setBy(5)" [disabled]="by() === 5" class="btn join-item">
+        5
+      </button>
+    </div>
+  `,
   styles: ``,
 })
 export class Prefs {
-  store = inject(CounterStore);
+  by = signal<1 | 3 | 5>(1);
+
+  setBy(value: 1 | 3 | 5) {
+    this.by.set(value);
+  }
 }

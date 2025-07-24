@@ -21,13 +21,13 @@ export const routes: Routes = [
       import('../links/links.routes').then((r) => r.LINKS_ROUTES),
   },
   {
-    path: 'counter-lab',
-    loadChildren: () =>
-      import('../counter-lab/counter.routes').then((r) => r.COUNTER_ROUTES),
-  },
-  {
     path: 'books',
     loadChildren: () =>
       import('../books/books.routes').then((r) => r.BOOKS_ROUTES),
+  },
+  {
+    path: 'counter-lab',
+    loadChildren: () =>
+      import('../counter-lab/counter.routes').then((r) => r.COUNTER_ROUTES),
   },
 ];

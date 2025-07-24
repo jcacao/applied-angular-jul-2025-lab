@@ -16,7 +16,7 @@ import { provideEffects } from '@ngrx/effects';
 import { identityFeature } from '../shared/identity/store';
 import { IdentityEffects } from '../shared/identity/identity-effects';
 import { navBarFeature } from '../shared/nav-bar/store';
-import { CounterStore } from '../counter-lab/services/counter-store';
+//import { CounterStore } from '../counter-lab/services/counter-store';
 import { ErrorsStore } from '../shared/errors/store';
 
 // Services that are truly "global" in our application should be registered here.
@@ -35,7 +35,7 @@ export const appConfig: ApplicationConfig = {
     provideEffects([IdentityEffects]),
     provideState(identityFeature),
     provideState(navBarFeature),
-    CounterStore,
+    //CounterStore,
     ErrorsStore,
   ],
 };

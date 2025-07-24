@@ -88,7 +88,8 @@ export class NavBar {
     { href: ['about'], label: 'About' },
     { href: ['demos'], label: 'Demos' },
     { href: ['links'], label: 'Share Links' },
-    { href: ['counter-lab'], label: 'Counter Lab' },
+    //{ href: ['counter-lab'], label: 'Counter Lab' },
     { href: ['books'], label: 'Books' },
+    { href: ['counter-lab'], label: 'Counter Lab' },
   ]);
 }
