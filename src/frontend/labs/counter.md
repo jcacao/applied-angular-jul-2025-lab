@@ -4,12 +4,13 @@ Getting used to signals, routing, etc.
 
 You may end up needing a service.
 
+> If you are doing this again, you can delete the existing one, or just create a new feature folder e.g. 'counter-lab-2', and work from there.
+
 ## Sprint 1 - Create Feature and Routing
 
 ### Feature Component
 
 Create a new folder in `src/` called `counter-lab`.
-
 
 Create an Angular component in that folder called `counter.component.ts`.
 

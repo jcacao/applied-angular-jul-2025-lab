@@ -11,16 +11,18 @@ import { withDevtools } from '@angular-architects/ngrx-toolkit';
 import { computed, inject } from '@angular/core';
 import { setEntities, withEntities } from '@ngrx/signals/entities';
 import { ApiLink } from '../types';
-import { LinkApiService } from './links-api';
+import { ApiLinkCreate, LinkApiService } from './links-api';
 
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { Store } from '@ngrx/store';
-import { exhaustMap, interval, pipe, tap } from 'rxjs';
+import { exhaustMap, interval, mergeMap, pipe, tap } from 'rxjs';
 import { selectSub } from '../../shared/identity/store';
+import { tapResponse } from '@ngrx/operators';
 import {
   setFetching,
   setIsFulfilled,
   setIsLoading,
+  setIsMutating,
   withApiState,
 } from './api-state-feature';
 import {
@@ -30,6 +32,8 @@ import {
 } from './link-filter-feature';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { withUserPrefs } from './user-prefs-feature';
+import { injectDispatch } from '@ngrx/signals/events';
+import { applicationErrorEvents } from '../../shared/errors/store';
 type SortOptions = 'newest' | 'oldest';
 type LinkState = {
   sortOrder: SortOptions;
@@ -48,9 +52,32 @@ export const LinksStore = signalStore(
   }),
   withMethods((state) => {
     const service = inject(LinkApiService);
+    const errorDispatch = injectDispatch(applicationErrorEvents);
     return {
       setFilterTag: (tag: string) => patchState(state, setFilterTag(tag)),
       clearFilterTag: () => patchState(state, clearFilteringTag()),
+      addLink: rxMethod<ApiLinkCreate>(
+        pipe(
+          tap(() => patchState(state, setIsMutating())),
+          mergeMap((link) =>
+            service.addLink(link).pipe(
+              tapResponse(
+                (r) => {
+                  patchState(state, setEntities([r]), setIsFulfilled());
+                },
+                (err) => {
+                  console.error('Error adding link:', err);
+                  errorDispatch.addError({
+                    message: 'Failed to add link',
+                    source: 'LinksStore',
+                  });
+                  patchState(state, setIsFulfilled());
+                },
+              ),
+            ),
+          ),
+        ),
+      ),
       _load: rxMethod<{ isBackgroundFetch: boolean }>(
         pipe(
           tap((p) =>

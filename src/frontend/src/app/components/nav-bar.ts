@@ -89,5 +89,6 @@ export class NavBar {
     { href: ['demos'], label: 'Demos' },
     { href: ['links'], label: 'Share Links' },
     { href: ['counter-lab'], label: 'Counter Lab' },
+    { href: ['books'], label: 'Books' },
   ]);
 }

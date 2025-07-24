@@ -14,11 +14,4 @@ import {
 })
 export class Edit {
   id = input.required<string>();
-
-  constructor() {
-    effect(() => {
-      const id = this.id();
-      // store.setSelectedId(id);
-    });
-  }
 }

@@ -14,6 +14,8 @@ import {
 import { LinksStore } from '../services/links-store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs';
+import { ApiLink } from '../types';
+import { ApiLinkCreate } from '../services/links-api';
 @Component({
   selector: 'app-links-add',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,11 +27,11 @@ import { debounceTime } from 'rxjs';
   >
     <label class="label"
       >Link
-      <input formControlName="link" type="text" class="input input-bordered" />
+      <input formControlName="url" type="text" class="input input-bordered" />
     </label>
     <label class="label"
       >Label
-      <input formControlName="label" type="text" class="input input-bordered" />
+      <input formControlName="title" type="text" class="input input-bordered" />
     </label>
     <label for="tags">Tags</label>
     <div formArrayName="tags">
@@ -82,8 +84,8 @@ export class Add {
     );
   });
   form = new FormGroup({
-    link: new FormControl('', { nonNullable: true }),
-    label: new FormControl('', { nonNullable: true }),
+    url: new FormControl('', { nonNullable: true }),
+    title: new FormControl('', { nonNullable: true }),
     tags: new FormArray([new FormControl('', { nonNullable: true })]),
   });
 
@@ -109,7 +111,9 @@ export class Add {
   }
 
   submit() {
-    console.log('Form submitted:', this.form.value);
+    const link = this.form.value as ApiLinkCreate;
+    this.store.addLink(link);
+    this.form.reset();
   }
   #normalizeTag(tag: string): string {
     const result = tag

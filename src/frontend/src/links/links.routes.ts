@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { selectSub } from '../shared/identity/store';
 import { LinksStore } from './services/links-store';
 import { LinkApiService } from './services/links-api';
+import { Add } from './pages/add';
 export const LINKS_ROUTES: Routes = [
   {
     path: '',
@@ -30,7 +31,7 @@ export const LINKS_ROUTES: Routes = [
         component: Edit,
         canActivate: [isLoggedInGuard, isOwnerOfLinkGuard()],
       },
-      { path: 'add', component: Edit, canActivate: [isLoggedInGuard] },
+      { path: 'add', component: Add, canActivate: [isLoggedInGuard] },
     ],
   },
 ];

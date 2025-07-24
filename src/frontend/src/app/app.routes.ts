@@ -25,4 +25,9 @@ export const routes: Routes = [
     loadChildren: () =>
       import('../counter-lab/counter.routes').then((r) => r.COUNTER_ROUTES),
   },
+  {
+    path: 'books',
+    loadChildren: () =>
+      import('../books/books.routes').then((r) => r.BOOKS_ROUTES),
+  },
 ];
