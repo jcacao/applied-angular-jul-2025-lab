@@ -29,6 +29,7 @@ import {
   withLinkFiltering,
 } from './link-filter-feature';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { withUserPrefs } from './user-prefs-feature';
 type SortOptions = 'newest' | 'oldest';
 type LinkState = {
   sortOrder: SortOptions;
@@ -39,6 +40,7 @@ type LinkModel = ApiLink & { isOwnedByCurrentUser: boolean };
 export const LinksStore = signalStore(
   withApiState(),
   withLinkFiltering(),
+  withUserPrefs(),
   withDevtools('links-store'),
   withEntities<ApiLink>(),
   withState<LinkState>({
@@ -101,7 +103,7 @@ export const LinksStore = signalStore(
     onInit(store) {
       store._load({ isBackgroundFetch: false });
       console.log('The Links Store Is Created!');
-      // This is better than what I had with the setInteral - the takeUntilDestroyed will clean this up for us.
+      // This is better than what I had with the setInterval - the takeUntilDestroyed will clean this up for us.
       interval(5000)
         .pipe(takeUntilDestroyed())
         .subscribe(() => store._load({ isBackgroundFetch: true }));
